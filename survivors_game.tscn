@@ -1,0 +1,106 @@
+[gd_scene load_steps=5 format=3 uid="uid://c5y73trp58fqb"]
+
+[ext_resource type="Script" path="res://survivors_game.gd" id="1_1qpyh"]
+[ext_resource type="PackedScene" uid="uid://sggfh7p3akks" path="res://player.tscn" id="1_p3ali"]
+[ext_resource type="PackedScene" uid="uid://bw37mcsyp7onj" path="res://pine_tree.tscn" id="2_o01mx"]
+
+[sub_resource type="Curve2D" id="Curve2D_50bub"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -110, -122, 0, 0, 0, 0, 2034, -128, 0, 0, 0, 0, 2020, 1173, 0, 0, 0, 0, -113, 1165, 0, 0, 0, 0, -110, -122)
+}
+point_count = 5
+
+[node name="Game" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_1qpyh")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0, 0.415686, 0.211765, 1)
+
+[node name="Player" parent="." instance=ExtResource("1_p3ali")]
+position = Vector2(906, 481)
+
+[node name="Path2D" type="Path2D" parent="Player"]
+position = Vector2(-906, -481)
+curve = SubResource("Curve2D_50bub")
+
+[node name="MobSpawn" type="PathFollow2D" parent="Player/Path2D"]
+unique_name_in_owner = true
+position = Vector2(-110, -122)
+rotation = -0.0027985
+
+[node name="StaticBody2D" parent="." instance=ExtResource("2_o01mx")]
+position = Vector2(262, 365)
+
+[node name="StaticBody2D2" parent="." instance=ExtResource("2_o01mx")]
+position = Vector2(444, 461)
+
+[node name="StaticBody2D3" parent="." instance=ExtResource("2_o01mx")]
+position = Vector2(289, 879)
+
+[node name="StaticBody2D4" parent="." instance=ExtResource("2_o01mx")]
+position = Vector2(969, 701)
+
+[node name="StaticBody2D5" parent="." instance=ExtResource("2_o01mx")]
+position = Vector2(1386, 904)
+
+[node name="StaticBody2D6" parent="." instance=ExtResource("2_o01mx")]
+position = Vector2(1511, 669)
+
+[node name="StaticBody2D7" parent="." instance=ExtResource("2_o01mx")]
+position = Vector2(1605, 851)
+
+[node name="StaticBody2D8" parent="." instance=ExtResource("2_o01mx")]
+position = Vector2(1183, 217)
+
+[node name="StaticBody2D9" parent="." instance=ExtResource("2_o01mx")]
+position = Vector2(1359, 279)
+
+[node name="StaticBody2D10" parent="." instance=ExtResource("2_o01mx")]
+position = Vector2(1882, 156)
+
+[node name="StaticBody2D11" parent="." instance=ExtResource("2_o01mx")]
+position = Vector2(35, 946)
+
+[node name="StaticBody2D12" parent="." instance=ExtResource("2_o01mx")]
+position = Vector2(299, 44)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.3
+autostart = true
+
+[node name="GameOver" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="GameOver"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.666667)
+
+[node name="Label" type="Label" parent="GameOver/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -11.5
+offset_right = 38.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 160
+text = "YOU DIED"
+
+[connection signal="health_depleted" from="Player" to="." method="_on_player_health_depleted"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
